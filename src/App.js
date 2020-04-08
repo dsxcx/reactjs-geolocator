@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import moment from 'moment';
 
 class App extends React.Component {
 
@@ -9,7 +10,8 @@ class App extends React.Component {
     this.state = {
       latitude: null,
       longitude: null,
-      userAddress: null
+      userAddress: null,
+      timestamp: null
     };
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
@@ -47,6 +49,7 @@ class App extends React.Component {
     this.setState({
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
+      timestamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss')
     })
     
     let result = fetch('https://us-central1-ti-tids-demo.cloudfunctions.net/http_maps_bq', {
@@ -61,7 +64,7 @@ class App extends React.Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           device_id: '343434',
-          timestamp: '2020-01-01 02:05:13',
+          timestamp: this.state.timestamp,
           target_location: '23232323'
         
       })
@@ -92,7 +95,8 @@ class App extends React.Component {
   
       <button onClick={this.getLocation}>Get coordinates</button>
       <p>Latitude: {this.state.latitude}</p>
-      <p>Longitude: {this.state.longitude}</p>  
+      <p>Longitude: {this.state.longitude}</p>
+      <p>Timestamp: {this.state.timestamp}</p>  
       </div>
     );
   }
