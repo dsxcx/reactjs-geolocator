@@ -11,11 +11,11 @@ class App extends React.Component {
       latitude: null,
       longitude: null,
       userAddress: null,
-      timestamp: null
+      timestamp: null,
+      deviceID: null,
     };
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
-    this.getUserAddress = this.getUserAddress.bind(this);
   }
 
   getLocation(){
@@ -49,7 +49,7 @@ class App extends React.Component {
     this.setState({
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
-      timestamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss')
+      timestamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
     })
     
     let result = fetch('https://us-central1-ti-tids-demo.cloudfunctions.net/http_maps_bq', {
@@ -63,8 +63,8 @@ class App extends React.Component {
         
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          device_id: '343434',
           timestamp: this.state.timestamp,
+          device_id: '343434',
           target_location: '23232323'
         
       })
@@ -82,12 +82,6 @@ class App extends React.Component {
     
   }
 
-  getUserAddress(){
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + this.state.latitude + ',' + this.state.longitude + '&key=AIzaSyAr3NZ68vfFJhMRFvK6TOGSkPkId6uXz0o')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => alert(error))
-  }
 
   render() {
     return (
