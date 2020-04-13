@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import moment from 'moment';
+import axios from 'axios';
 
 class App extends React.Component {
 
@@ -10,9 +11,9 @@ class App extends React.Component {
     this.state = {
       latitude: null,
       longitude: null,
-      userAddress: null,
+      userAddress: 'placeholder',
       timestamp: null,
-      deviceID: null,
+      deviceID: 'placeholder',
     };
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
@@ -52,34 +53,14 @@ class App extends React.Component {
       timestamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
     })
     
-    let result = fetch('https://us-central1-ti-tids-demo.cloudfunctions.net/http_maps_bq', {
-      method: 'post',
-      mode: 'no-cors',
-      headers: {
-        'Accept': 'application/json',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          timestamp: this.state.timestamp,
-          device_id: '343434',
-          target_location: '23232323'
-        
-      })
-    }).then(function(response){
-      if(response.ok){
-        return response.text();
-      }
-      throw new Error('Something went wrong');
-    }).then(function(text){
-      console.log('Request succ', text)
-    }).catch(function(error){
-      console.log('request failed', error);
-    });
-    console.log(result);
-    
+    console.log(this.state)
+    axios.post('https://us-central1-ti-tids-demo.cloudfunctions.net/http_maps_bq',this.state )
+    .then(response=>{
+      console.log(response)
+    })
+    .catch(error=>{
+      console.log(error)
+    })
   }
 
 
