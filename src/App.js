@@ -11,9 +11,10 @@ class App extends React.Component {
     this.state = {
       latitude: null,
       longitude: null,
-      userAddress: 'placeholder',
+      current_location: 'placeholder',
+      target_location: '25 ADB Ave, Ortigas Center, Pasig, 1600 Metro Manila, Philippines',
       timestamp: null,
-      deviceID: 'placeholder',
+      device_id: 'placeholder',
     };
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
@@ -59,7 +60,7 @@ class App extends React.Component {
       console.log(response)
     })
     .catch(error=>{
-      console.log(error)
+      console.log(error.message)
     })
   }
 
