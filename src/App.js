@@ -17,6 +17,7 @@ class App extends React.Component {
     };
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
+    this.sendData = this.sendData.bind(this);
   }
 
   getLocation(){
@@ -52,9 +53,11 @@ class App extends React.Component {
       longitude: position.coords.longitude,
       timestamp: moment(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
     })
-    
+  }
+
+  sendData(){
     console.log(this.state)
-    axios.post('https://us-central1-ti-tids-demo.cloudfunctions.net/http_maps_bq',this.state )
+    axios.post('https://us-central1-wernayu.cloudfunctions.net/http_maps_bq',this.state )
     .then(response=>{
       console.log(response)
     })
@@ -68,10 +71,13 @@ class App extends React.Component {
     return (
       <div className="App">
   
-      <button onClick={this.getLocation}>Get coordinates</button>
       <p>Latitude: {this.state.latitude}</p>
       <p>Longitude: {this.state.longitude}</p>
-      <p>Timestamp: {this.state.timestamp}</p>  
+      <p>Timestamp: {this.state.timestamp}</p> 
+
+      <button onClick={this.getLocation}>Get coordinates</button> 
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <button onClick={this.sendData}>Send data</button>
       </div>
     );
   }
